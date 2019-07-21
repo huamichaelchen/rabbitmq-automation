@@ -1,0 +1,64 @@
+helm install stable/rabbitmq-ha --name my-rabbit --namespace rabbit -f rabbit.yaml
+NAME:   my-rabbit
+LAST DEPLOYED: Sun Jul 21 19:16:17 2019
+NAMESPACE: rabbit
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/Pod(related)
+NAME                     READY  STATUS       RESTARTS  AGE
+my-rabbit-rabbitmq-ha-0  1/1    Terminating  0         5m
+my-rabbit-rabbitmq-ha-1  0/1    Terminating  0         4m
+my-rabbit-rabbitmq-ha-2  1/1    Terminating  0         4m
+
+==> v1/Secret
+
+NAME                   AGE
+my-rabbit-rabbitmq-ha  1s
+
+==> v1/ConfigMap
+my-rabbit-rabbitmq-ha  1s
+
+==> v1/ServiceAccount
+my-rabbit-rabbitmq-ha  1s
+
+==> v1beta1/Role
+my-rabbit-rabbitmq-ha  1s
+
+==> v1beta1/RoleBinding
+my-rabbit-rabbitmq-ha  1s
+
+==> v1/Service
+my-rabbit-rabbitmq-ha-discovery  1s
+my-rabbit-rabbitmq-ha            1s
+
+==> v1beta1/StatefulSet
+my-rabbit-rabbitmq-ha  1s
+
+
+NOTES:
+** Please be patient while the chart is being deployed **
+
+  Credentials:
+
+    Username            : guest
+    Password            : $(kubectl get secret --namespace rabbit my-rabbit-rabbitmq-ha -o jsonpath="{.data.rabbitmq-password}" | base64 --decode)
+    Management username : management
+    Management password : $(kubectl get secret --namespace rabbit my-rabbit-rabbitmq-ha -o jsonpath="{.data.rabbitmq-management-password}" | base64 --decode)
+    ErLang Cookie       : $(kubectl get secret --namespace rabbit my-rabbit-rabbitmq-ha -o jsonpath="{.data.rabbitmq-erlang-cookie}" | base64 --decode)
+
+  RabbitMQ can be accessed within the cluster on port 5672 at my-rabbit-rabbitmq-ha.rabbit.svc.cluster.local
+
+  To access the cluster externally execute the following commands:
+
+    export POD_NAME=$(kubectl get pods --namespace rabbit -l "app=rabbitmq-ha" -o jsonpath="{.items[0].metadata.name}")
+    kubectl port-forward $POD_NAME --namespace rabbit 5672:5672 15672:15672
+
+  To Access the RabbitMQ AMQP port:
+
+    amqp://127.0.0.1:5672/
+
+  To Access the RabbitMQ Management interface:
+
+    URL : http://127.0.0.1:15672
+
