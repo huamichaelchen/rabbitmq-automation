@@ -9,7 +9,7 @@ Google Click to Deploy (aka. Google GCP marketplace)
 
 To deploy RabbitMQ on Kubernetes run this: 
 
-0. ```kubectl apply -f rabbitmq-kube/rabbitmq-kube.yamy```
+0. ```kubectl apply -f rabbitmq-kube/rabbitmq-kube.yaml```
 1. visit http://localhost:31672 or https://localhost:31671
 2. username and password are `guest` and `guest`
 
